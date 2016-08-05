@@ -26,13 +26,14 @@
                                                 </td>
 
                                                 <td>
-                                                    <div class="form-group">
-                                                        <div class="col-sm-offset-3 col-sm-6">
-                                                            <a href="{{url('/restaurant')}}"><button class="btn btn-default">
-                                                                    <i class="fa fa-plus"></i> Add Restaurant
-                                                                </button></a>
-                                                        </div>
-                                                    </div>
+                                                    <form action="{{ url('business/'.$single_business->id) }}" method="POST">
+                                                        {{ csrf_field() }}
+                                                        {{ method_field('PATCH') }}
+
+                                                        <button type="submit" id="edit-business-{{ $single_business->id }}" class="btn btn-primary">
+                                                            <i class="fa fa-btn fa-edit"></i>Edit
+                                                        </button>
+                                                    </form>
                                                 </td>
 
                                                 <td>

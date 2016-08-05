@@ -69,7 +69,7 @@ class BusinessController extends Controller
             'country' => 'required|max:255',
             'city' => 'required|max:255',
             'street_address' => 'required|max:255',
-            'email' => 'required|max:255|unique:business',
+            'email' => 'max:255',
             'phone_number' => 'required|max:255|unique:business',
         ]);
 
@@ -86,11 +86,40 @@ class BusinessController extends Controller
         return redirect('/business/home');
     }
 
+    public function edit($id)
+    {
+        $business = Business::findOrFail($id);
+
+        return view('business.edit')->withBusiness($business);
+    }
+
+    public function update($id, Request $request)
+    {
+        $business = Business::findOrFail($id);
+
+        $this->validate($request, [
+            'name' => 'required|max:255|unique:business',
+            'country' => 'required|max:255',
+            'city' => 'required|max:255',
+            'street_address' => 'required|max:255',
+            'email' => 'max:255',
+            'phone_number' => 'required|max:255|unique:business',
+        ]);
+
+        $input = $request->all();
+
+        $business->fill($input)->save();
+
+        Session::flash('flash_message', 'Task successfully added!');
+
+        return redirect()->back();
+    }
+
     /**
      * Destroy the given business.
      *
      * @param  Request  $request
-     * @param  Business  $business
+     * @param  Business  $restaurant
      * @return Response
      */
     public function destroy(Request $request, Business $business)
